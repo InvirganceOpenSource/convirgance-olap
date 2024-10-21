@@ -60,4 +60,27 @@ public class ForeignKey
     {
         this.target = target;
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        ForeignKey other;
+        
+        if(obj == this) return true;
+        if(!(obj instanceof ForeignKey)) return false;
+        
+        other = (ForeignKey)obj;
+        
+        if(!other.key.equals(key)) return false;
+        if(!other.source.equals(source)) return false;
+        if(!other.target.equals(target)) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return key.hashCode() + source.hashCode() + target.hashCode();
+    }
 }

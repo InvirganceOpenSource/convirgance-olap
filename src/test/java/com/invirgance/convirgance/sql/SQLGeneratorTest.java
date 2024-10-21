@@ -136,4 +136,41 @@ public class SQLGeneratorTest
         
         assertEquals(expected, generator.getSQL());
     }
+    
+    @Test
+    public void testDuplicates()
+    {
+        SQLGenerator generator = new SQLGenerator();
+        Database stardb = new Database("StarDB");
+        Table sales = new Table("FactSales", "id");
+        Table franchise = new Table("DimFranchise", "id");
+        Table store = new Table("DimStore", "id");
+        
+        assertEquals(0, stardb.getTables().size());
+        
+        stardb.addTable(sales);
+        stardb.addTable(franchise);
+        
+        assertEquals(2, stardb.getTables().size());
+        
+        stardb.addTable(sales);
+        stardb.addTable(franchise);
+        
+        assertEquals(2, stardb.getTables().size());
+        assertEquals(0, sales.getForeignKeys().size());
+        
+        sales.addForeignKey("FranchiseId", franchise);
+        sales.addForeignKey("StoreId", store);
+        
+        assertEquals(2, sales.getForeignKeys().size());
+        
+        sales.addForeignKey("FranchiseId", franchise);
+        sales.addForeignKey("StoreId", store);
+        
+        assertEquals(2, sales.getForeignKeys().size());
+        
+        assertEquals(new Table("FactSales", "id"), new Table("FactSales", "id"));
+        assertNotEquals(new Table("FactSales", "id"), new Table("DimFranchise", "id"));
+        assertNotEquals(new Table("FactSales", "id"), new Table("FactSales", "FranchiseId"));
+    }
 }

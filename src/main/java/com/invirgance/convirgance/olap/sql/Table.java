@@ -105,4 +105,31 @@ public class Table
         
         for(ForeignKey key : foreignKeys) key.setSource(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        Table other;
+        
+        if(obj == this) return true;
+        if(!(obj instanceof Table)) return false;
+        
+        other = (Table)obj;
+        
+        if(other.database == null && this.database != null) return false;
+        if(other.database != null && !other.database.equals(database)) return false;
+        
+        if(!other.name.equals(name)) return false;
+        
+        if(other.primaryKey == null && this.primaryKey != null) return false;
+        if(other.primaryKey != null && !other.primaryKey.equals(primaryKey)) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return database.hashCode() + name.hashCode() + primaryKey.hashCode();
+    }
 }

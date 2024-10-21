@@ -88,4 +88,25 @@ public class Database
         
         for(Table table : tables) table.setDatabase(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        Database other;
+        
+        if(obj == this) return true;
+        if(!(obj instanceof Database)) return false;
+        
+        other = (Database)obj;
+        
+        if(!other.name.equals(name)) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return name.hashCode();
+    }
 }
