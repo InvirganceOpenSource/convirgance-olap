@@ -33,6 +33,18 @@ public class SQLGenerator
     private List<Column> selects = new ArrayList<>();
     private List<Table> tables = new ArrayList<>();
     
+    private boolean caseSensitive;
+
+    public boolean isCaseSensitive()
+    {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive)
+    {
+        this.caseSensitive = caseSensitive;
+    }
+    
     public void addTable(Table table)
     {
         if(!tables.contains(table)) this.tables.add(table);
@@ -69,6 +81,7 @@ public class SQLGenerator
     private String generateJoins(Table from)
     {
         StringBuffer buffer = new StringBuffer();
+        String quotes = caseSensitive ? "\"" : "";
         
         for(Table table : this.tables)
         {
@@ -80,15 +93,25 @@ public class SQLGenerator
                 {
                     buffer.append('\n');
                     buffer.append("join ");
+                    buffer.append(quotes);
                     buffer.append(table.getName());
+                    buffer.append(quotes);
                     buffer.append(" on ");
+                    buffer.append(quotes);
                     buffer.append(table.getName());
+                    buffer.append(quotes);
                     buffer.append('.');
+                    buffer.append(quotes);
                     buffer.append(table.getPrimaryKey());
+                    buffer.append(quotes);
                     buffer.append(" = ");
+                    buffer.append(quotes);
                     buffer.append(from.getName());
+                    buffer.append(quotes);
                     buffer.append('.');
+                    buffer.append(quotes);
                     buffer.append(key.getSourceKey());
+                    buffer.append(quotes);
                 }
             }
         }
@@ -146,7 +169,13 @@ public class SQLGenerator
         
         buffer.append("\n");
         buffer.append("from ");
+        
+        if(caseSensitive) buffer.append('"');
+        
         buffer.append(from.getName());
+        
+        if(caseSensitive) buffer.append('"');
+        
         buffer.append(generateJoins(from));
         buffer.append(generateGroupBy());
         
@@ -185,10 +214,15 @@ public class SQLGenerator
         public String getSQL()
         {
             StringBuffer buffer = new StringBuffer();
+            String quotes = caseSensitive ? "\"" : "";
             
+            buffer.append(quotes);
             buffer.append(table.getName());
+            buffer.append(quotes);
             buffer.append('.');
+            buffer.append(quotes);
             buffer.append(this.name);
+            buffer.append(quotes);
             
             if(this.alias != null)
             {
@@ -204,19 +238,24 @@ public class SQLGenerator
         public String getGroupBySQL()
         {
             StringBuffer buffer = new StringBuffer();
+            String quotes = caseSensitive ? "\"" : "";
             
-            if(this.alias != null)
-            {
-                buffer.append("\"");
-                buffer.append(this.alias);
-                buffer.append("\"");
-            }
-            else
-            {
+//            if(this.alias != null)
+//            {
+//                buffer.append("\"");
+//                buffer.append(this.alias);
+//                buffer.append("\"");
+//            }
+//            else
+//            {
+                buffer.append(quotes);
                 buffer.append(table.getName());
+                buffer.append(quotes);
                 buffer.append('.');
+                buffer.append(quotes);
                 buffer.append(this.name);
-            }
+                buffer.append(quotes);
+//            }
                 
             return buffer.toString();
         }
@@ -249,12 +288,17 @@ public class SQLGenerator
         public String getSQL()
         {
             StringBuffer buffer = new StringBuffer();
+            String quotes = caseSensitive ? "\"" : "";
             
             buffer.append(function);
             buffer.append('(');
+            buffer.append(quotes);
             buffer.append(table.getName());
+            buffer.append(quotes);
             buffer.append('.');
+            buffer.append(quotes);
             buffer.append(this.name);
+            buffer.append(quotes);
             buffer.append(')');
             
             if(this.alias != null)

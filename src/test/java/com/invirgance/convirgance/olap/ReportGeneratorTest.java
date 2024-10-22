@@ -95,8 +95,8 @@ public class ReportGeneratorTest
                           "join DimFranchise on DimFranchise.id = FactSales.FranchiseId\n" + 
                           "join DimStore on DimStore.id = FactSales.StoreId\n" + 
                           "group by\n" +
-                          "    \"Franchise Name\",\n" +
-                          "    \"Store Name\"";
+                          "    DimFranchise.FranchiseName,\n" +
+                          "    DimStore.StoreName";
         
         Star star = getStar();
         ReportGenerator generator = new ReportGenerator(star);

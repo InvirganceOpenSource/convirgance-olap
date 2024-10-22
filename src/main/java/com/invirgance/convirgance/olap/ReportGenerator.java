@@ -34,10 +34,22 @@ public class ReportGenerator
     private Star star;
     private List<Dimension> dimensions = new ArrayList<>();
     private List<Measure> measures = new ArrayList<>();
+    
+    private boolean caseSensitive;
 
     public ReportGenerator(Star star)
     {
         this.star = star;
+    }
+
+    public boolean isCaseSensitive()
+    {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive)
+    {
+        this.caseSensitive = caseSensitive;
     }
     
     public void addDimension(Dimension dimension)
@@ -58,6 +70,7 @@ public class ReportGenerator
     {
         SQLGenerator generator = new SQLGenerator();
         
+        generator.setCaseSensitive(caseSensitive);
         generator.addTable(star.getFact());
         
         for(Dimension dimension : dimensions) 
