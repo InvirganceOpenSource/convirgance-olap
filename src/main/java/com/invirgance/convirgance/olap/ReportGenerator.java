@@ -71,6 +71,7 @@ public class ReportGenerator
         SQLGenerator generator = new SQLGenerator();
         
         generator.setCaseSensitive(caseSensitive);
+        generator.setForceGroupBy(true);
         generator.addTable(star.getFact());
         
         for(Dimension dimension : dimensions) 

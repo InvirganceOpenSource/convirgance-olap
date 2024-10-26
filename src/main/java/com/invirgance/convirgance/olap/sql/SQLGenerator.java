@@ -34,6 +34,7 @@ public class SQLGenerator
     private List<Table> tables = new ArrayList<>();
     
     private boolean caseSensitive;
+    private boolean forceGroupBy;
 
     public boolean isCaseSensitive()
     {
@@ -43,6 +44,16 @@ public class SQLGenerator
     public void setCaseSensitive(boolean caseSensitive)
     {
         this.caseSensitive = caseSensitive;
+    }
+
+    public boolean isForceGroupBy()
+    {
+        return forceGroupBy;
+    }
+
+    public void setForceGroupBy(boolean forceGroupBy)
+    {
+        this.forceGroupBy = forceGroupBy;
     }
     
     public void addTable(Table table)
@@ -144,7 +155,7 @@ public class SQLGenerator
             index++;
         }
         
-        if(aggregates < 1) return "";
+        if(aggregates < 1 && !forceGroupBy) return "";
         
         return buffer.toString();
     }
@@ -240,22 +251,13 @@ public class SQLGenerator
             StringBuffer buffer = new StringBuffer();
             String quotes = caseSensitive ? "\"" : "";
             
-//            if(this.alias != null)
-//            {
-//                buffer.append("\"");
-//                buffer.append(this.alias);
-//                buffer.append("\"");
-//            }
-//            else
-//            {
-                buffer.append(quotes);
-                buffer.append(table.getName());
-                buffer.append(quotes);
-                buffer.append('.');
-                buffer.append(quotes);
-                buffer.append(this.name);
-                buffer.append(quotes);
-//            }
+            buffer.append(quotes);
+            buffer.append(table.getName());
+            buffer.append(quotes);
+            buffer.append('.');
+            buffer.append(quotes);
+            buffer.append(this.name);
+            buffer.append(quotes);
                 
             return buffer.toString();
         }
