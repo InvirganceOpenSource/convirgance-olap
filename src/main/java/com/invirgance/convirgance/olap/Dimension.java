@@ -24,7 +24,7 @@ package com.invirgance.convirgance.olap;
 import com.invirgance.convirgance.olap.sql.Table;
 
 /**
- *
+ *  
  * @author jbanes
  */
 public class Dimension

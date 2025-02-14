@@ -22,7 +22,8 @@ SOFTWARE.
 package com.invirgance.convirgance.olap.sql;
 
 /**
- *
+ * Captures the relationship between a source table, a column on the source 
+ * table, and a target table.
  * @author jbanes
  */
 public class ForeignKey
@@ -31,36 +32,67 @@ public class ForeignKey
     private String key;
     private Table target;
 
+    /**
+     * Returns the source table.
+     * @return the source Table.
+     */
     Table getSource()
     {
         return source;
     }
 
+    /**
+     * Sets the provided source table to the key.
+     * @param source the source Table.
+     */
     public void setSource(Table source)
     {
         this.source = source;
     }
 
+    /**
+     * Returns the String representing the key
+     * @return the key String
+     */
     public String getSourceKey()
     {
         return key;
     }
 
+    /**
+     * Sets the provided String as the key for this ForeignKey object.
+     * @param sourceKey the String for the key.
+     */
     public void setSourceKey(String sourceKey)
     {
         this.key = sourceKey;
     }
 
+    /**
+     * Returns the target table associated with the foreignKey
+     * @return the target Table.
+     */
     public Table getTarget()
     {
         return target;
     }
 
+    /**
+     * Sets the provided target table to be associated with this foreignKey.
+     * @param target 
+     */
     public void setTarget(Table target)
     {
         this.target = target;
     }
 
+    /**
+     * Compares this ForeignKey to another first by reference, then by
+     * instance fields.
+     * @param obj a ForeignKey object to compare to.
+     * @return true if the objects are the same by reference or by 
+     * instance fields.
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -78,6 +110,11 @@ public class ForeignKey
         return true;
     }
 
+    /**
+     * Returns the hashCode for the ForeignKey object based on all of 
+     * its instance fields.
+     * @return int representing the hashCode.
+     */
     @Override
     public int hashCode()
     {

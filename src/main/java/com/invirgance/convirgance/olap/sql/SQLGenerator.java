@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Provides support for creating and outputting SQL queries for working
+ * with OLAP.
  * @author jbanes
  */
 public class SQLGenerator
@@ -36,16 +37,24 @@ public class SQLGenerator
     private boolean caseSensitive;
     private boolean forceGroupBy;
 
+    /**
+     * Returns true if the SQLGenerator is case sensitive.
+     * @return boolean.
+     */
     public boolean isCaseSensitive()
     {
         return caseSensitive;
     }
 
+    /**
+     * Sets the case sensitivity for the SQLGenerator.
+     * @param caseSensitive the boolean.
+     */
     public void setCaseSensitive(boolean caseSensitive)
     {
         this.caseSensitive = caseSensitive;
     }
-
+    
     public boolean isForceGroupBy()
     {
         return forceGroupBy;
@@ -56,10 +65,15 @@ public class SQLGenerator
         this.forceGroupBy = forceGroupBy;
     }
     
+    /**
+     * Adds the provided Table to the table list of the SQLGeneratlr
+     * @param table 
+     */
     public void addTable(Table table)
     {
         if(!tables.contains(table)) this.tables.add(table);
     }
+    
     
     public void addSelect(String column, Table table)
     {

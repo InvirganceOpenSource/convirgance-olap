@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Provides support for a database Table representation.
  * @author jbanes
  */
 public class Table
@@ -35,56 +35,103 @@ public class Table
     private String primaryKey;
     private List<ForeignKey> foreignKeys = new ArrayList<>();
 
+    /**
+     * Creates a new instance of the Table object.
+     */
     public Table()
     {
     }
-
+    
+    /** 
+     * Creates a new instance of the Table with the specified name.
+     * @param name the String representing the table's name.
+     */
     public Table(String name)
     {
         this.name = name;
     }
-
+    
+    /** 
+     * Creates a new instance of the Database with the specified name
+     * and primaryKey.
+     * @param name the String representing the name.
+     * @param primaryKey the String representing the primaryKey.
+     */
     public Table(String name, String primaryKey)
     {
         this.name = name;
         this.primaryKey = primaryKey;
     }
 
+    /**
+     * Returns the Database associated with the table.
+     * @return the Database object.
+     */
     public Database getDatabase()
     {
         return database;
     }
 
+    /**
+     * Sets the provided database to the table.
+     * @param database The database object to set to the table.
+     */
     void setDatabase(Database database)
     {
         this.database = database;
     }
 
+    /**
+     * Returns the name of the Table.
+     * @return the String with the table's name.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the name for the table.
+     * @param name the String with the name.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /** 
+     * Returns the String with the primaryKey of the table.
+     * @return String with the primaryKey.
+     */
     public String getPrimaryKey()
     {
         return primaryKey;
     }
 
+    /**
+     * Sets the provided string as the primaryKey for the table.
+     * @param primaryKey String representing the primary key.
+     */
     public void setPrimaryKey(String primaryKey)
     {
         this.primaryKey = primaryKey;
     }
 
+    /**
+     * Returns the List of ForeignKey objects associated with the table.
+     * @return the List of ForeignKey objects.
+     */
     public List<ForeignKey> getForeignKeys()
     {
         return foreignKeys;
     }
     
+    /**
+     * Creates and adds the new foreignKey to this table's list of foreign keys.
+     * If the table already contains the new key, does nothing.
+     * @param foreignKey the String representing the foreign key.
+     * @param target the target table associated with the foreign key.
+     */
     public void addForeignKey(String foreignKey, Table target)
     {
         ForeignKey key = new ForeignKey();
@@ -99,6 +146,10 @@ public class Table
         }
     }
 
+    /**
+     * Sets the provided list of ForeignKey objects to this Table.
+     * @param foreignKeys a list of ForeignKey objects.
+     */
     public void setForeignKeys(List<ForeignKey> foreignKeys)
     {
         this.foreignKeys = foreignKeys;
@@ -106,6 +157,13 @@ public class Table
         for(ForeignKey key : foreignKeys) key.setSource(this);
     }
 
+    /**
+     * Compares this Table to another Table first by reference, then
+     * by instance fields (associated database, table name, and primary key),
+     * @param obj A table to compare to.
+     * @return true if the databases are the same by memory reference or 
+     * by instance fields.
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -127,6 +185,11 @@ public class Table
         return true;
     }
 
+    /**
+     * Returns the hashCode for the Table. The hashCode is based on the
+     * database associated with the table, the table's name, and its primary key.
+     * @return int representing the hashCode.
+     */
     @Override
     public int hashCode()
     {

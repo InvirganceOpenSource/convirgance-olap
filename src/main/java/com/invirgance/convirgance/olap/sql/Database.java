@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a database structure.
+ * Provides support for Database structure representation.
  * @author jbanes
  */
 public class Database
