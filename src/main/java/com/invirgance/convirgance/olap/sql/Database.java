@@ -25,38 +25,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Represents a database structure.
  * @author jbanes
  */
 public class Database
 {
     private String name;
     private List<Table> tables = new ArrayList<>();
-
+    
+    /**
+     * Creates a new instance of the Database object.
+     * 
+     */
     public Database()
     {
     }
 
+    /** 
+     * Creates a new instance of the Database with the specified name.
+     * @param name the String representing the name.
+     */
     public Database(String name)
     {
         this.name = name;
     }
     
+    /**
+     * Returns the name of the database.
+     * @return name as a String.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the name of the Database to the provided string.
+     * @param name The new name to use.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * Returns the list of tables stored in the database.
+     * @return list of Table objects.
+     */
     public List<Table> getTables()
     {
         return tables;
     }
     
+    /**
+     * Adds the provided table to the Database if it already doesn't exist. If
+     * the Database already contains the table passed in as the parameter, 
+     * does nothing. This ensures that table names are not repeated when adding
+     * to the database.
+     * @param table The table to add.
+     */
     public void addTable(Table table)
     {
         if(!this.tables.contains(table)) 
@@ -66,6 +93,12 @@ public class Database
         }
     }
     
+    /**
+     * Returns the table whose name matches the passed in String. If the 
+     * Database does not contain a table under such name, returns null.
+     * @param name String representing the name of the table to return.
+     * @return Table with the specified name.
+     */
     public Table getTable(String name)
     {
         for(Table table : this.tables)
@@ -76,19 +109,35 @@ public class Database
         return null;
     }
     
+    /**
+     * Removes the table from the Database.
+     * @param table The table to remove.
+     */
     public void removeTable(Table table)
     {
         table.setDatabase(null);
         this.tables.remove(table);
     }
-
+    
+    /**
+     * Sets the tables to the Database and sets the Database to each table
+     * in the list.
+     * @param tables A List of Table objects to assign to the database
+     */
     public void setTables(List<Table> tables)
     {
         this.tables = tables;
         
         for(Table table : tables) table.setDatabase(this);
     }
-
+    
+    /**
+     * Compares the Database to another object first based on 
+     * reference and then on name of the Database.
+     * @param obj A database to compare to.
+     * @return true if the databases are the same by memory reference or 
+     * by name, false otherwise.
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -104,6 +153,10 @@ public class Database
         return true;
     }
 
+    /**
+     * Returns the hashCode for the Database's name.
+     * @return int representing the hashCode.
+     */
     @Override
     public int hashCode()
     {
