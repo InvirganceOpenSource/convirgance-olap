@@ -24,6 +24,6 @@
 
 
 /**
- * Provides database representation and tooling
+ * Provides database representation and tools for SQL query generation
  */
 package com.invirgance.convirgance.olap.sql;
