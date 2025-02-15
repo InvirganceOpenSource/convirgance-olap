@@ -47,7 +47,7 @@ public class SQLGenerator
     }
 
     /**
-     * Sets the case sensitivity for the SQLGenerator.
+     * Sets the case sensitivity for the SQLGenerator as true or false.
      * @param caseSensitive the boolean.
      */
     public void setCaseSensitive(boolean caseSensitive)
@@ -55,26 +55,40 @@ public class SQLGenerator
         this.caseSensitive = caseSensitive;
     }
     
+    /**
+     * Returns true if the SQLGenerator is set to force the GROUP BY command in
+     * queries, false otherwise.
+     * @return boolean.
+     */
     public boolean isForceGroupBy()
     {
         return forceGroupBy;
     }
 
+    /** 
+     * Sets the forcing of GROUP BY command.
+     * @param forceGroupBy boolean.
+     */
     public void setForceGroupBy(boolean forceGroupBy)
     {
         this.forceGroupBy = forceGroupBy;
     }
     
     /**
-     * Adds the provided Table to the table list of the SQLGeneratlr
-     * @param table 
+     * Adds the provided Table to the table list of the SQLGenerator
+     * @param table a Table to include in SQLGenerator.
      */
     public void addTable(Table table)
     {
         if(!tables.contains(table)) this.tables.add(table);
     }
     
-    
+    /**
+     * Adds a Column object into the list of Columns 
+     * selected for this SQLGenerator.
+     * @param column String with the column name to be added.
+     * @param table Table associated with the column.
+     */
     public void addSelect(String column, Table table)
     {
         selects.add(new Column(column, table));
@@ -82,6 +96,15 @@ public class SQLGenerator
         addTable(table);
     }
     
+    /**
+     * Adds a Column object with the specified alias name into the list of 
+     * Columns for this SQL Generator.
+     * The Column is constructed using string name provided, the associated table, 
+     * and the specified alias.
+     * @param column the string with the column name.
+     * @param table Table associated with the column.
+     * @param alias the string representing the alias for the column name.
+     */
     public void addSelect(String column, Table table, String alias)
     {
         selects.add(new Column(column, table, alias));
@@ -89,6 +112,13 @@ public class SQLGenerator
         addTable(table);
     }
     
+    /**
+     * Adds an Aggregate object into the list of Columns selected for
+     * this SQLGenerator.
+     * @param function the aggregate's function.
+     * @param column the aggregate's name.
+     * @param table table associated with the aggregate.
+     */
     public void addAggregate(String function, String column, Table table)
     {
         selects.add(new Aggregate(function, column, table));
@@ -96,6 +126,14 @@ public class SQLGenerator
         addTable(table);
     }
     
+    /**
+     * Adds an Aggregate object (with specified alias) into the list of Columns selected for
+     * this SQLGenerator.
+     * @param function the aggregate's function.
+     * @param column the aggregate's name.
+     * @param table table associated with the aggregate.
+     * @param alias the aggregate's alias.
+     */
     public void addAggregate(String function, String column, Table table, String alias)
     {
         selects.add(new Aggregate(function, column, table, alias));
@@ -103,6 +141,12 @@ public class SQLGenerator
         addTable(table);
     }
     
+    /**
+     * Handles the generation of JOIN clauses among all the tables
+     * selected for the SQLGenerator and the specified FROM table. 
+     * @param from the FROM table, from which columns are selected.
+     * @return a SQL string component with JOIN clauses.
+     */
     private String generateJoins(Table from)
     {
         StringBuffer buffer = new StringBuffer();
@@ -146,6 +190,10 @@ public class SQLGenerator
         return buffer.toString();
     }
     
+    /** 
+     * Handles the generation of the GROUP BY clause.
+     * @return the GROUP BY clause for the SQL query.
+     */
     private String generateGroupBy()
     {
         StringBuffer buffer = new StringBuffer();
@@ -174,6 +222,10 @@ public class SQLGenerator
         return buffer.toString();
     }
     
+    /**
+     * Generates the String with the full SQL query.
+     * @return the SQL query string
+     */
     public String getSQL()
     {
         StringBuffer buffer = new StringBuffer();
@@ -207,18 +259,36 @@ public class SQLGenerator
         return buffer.toString();
     }
     
+    /**
+     * Private class that provides the Column support for 
+     * the SQLGenerator class. Instance fields include the name, table, 
+     * and alias.
+     */
     private class Column
     {
         protected String name;
         protected Table table;
         protected String alias;
-
+        
+        /**
+         * Creates a new instance of the Column object with the
+         * specified name for the column and the provided table.
+         * @param name the name of the column.
+         * @param table the table containing the column.
+         */
         public Column(String name, Table table)
         {
             this.name = name;
             this.table = table;
         }
-
+        
+        /**
+         * Creates a new instance of the Column object with the
+         * specified name, table, and alias.
+         * @param name
+         * @param table
+         * @param alias 
+         */
         public Column(String name, Table table, String alias)
         {
             this.name = name;
@@ -226,16 +296,29 @@ public class SQLGenerator
             this.alias = alias;
         }
 
+        /**
+         * Returns the name of the Column object.
+         * @return String representing the column's name
+         */
         public String getName()
         {
             return name;
         }
-
+        
+        /**
+         * Returns the Table object associated with the column.
+         * @return the table containing the column.
+         */
         public Table getTable()
         {
             return table;
         }
         
+        /**
+         * Returns the SQL component for the column, with the specified alias 
+         * name if one exists.
+         * @return SQL string component.
+         */
         public String getSQL()
         {
             StringBuffer buffer = new StringBuffer();
@@ -260,6 +343,11 @@ public class SQLGenerator
             return buffer.toString();
         }
         
+        /**
+         * Returns the SQL component for the column to use in GROUP BY
+         * clause generation .
+         * @return SQL String component
+         */
         public String getGroupBySQL()
         {
             StringBuffer buffer = new StringBuffer();
@@ -277,29 +365,56 @@ public class SQLGenerator
         }
     }
     
+    /**
+     * Private class Aggregate, extends the Column object to include
+     * the String field for a function run on the column to create an aggregate.
+     */
     private class Aggregate extends Column
     {
         private String function;
-
+        
+        /**
+         * Creates a new instance of an Aggregate object with the specified
+         * function, name, and table.
+         * @param function a String representing a function.
+         * @param name the String with the aggregate's name.
+         * @param table Table associated with the Aggregate object.
+         */
         public Aggregate(String function, String name, Table table)
         {
             super(name, table);
             
             this.function = function;
         }
-
+        /**
+         * Creates a new instance of an Aggregate object with the specified 
+         * function, name, and table, and the alias.
+         * @param function a String representing a function.
+         * @param name the String with the aggregate's name,
+         * @param table Table associated with the Aggregate object.
+         * @param alias the String with the aggregate's alias.
+         */
         public Aggregate(String function, String name, Table table, String alias)
         {
             super(name, table, alias);
             
             this.function = function;
         }
-
+        
+        /**
+         * Returns the function of the Aggregate object
+         * @return the String representing the object's function.
+         */
         public String getFunction()
         {
             return function;
         }
 
+        /**
+         * Returns the SQL component for getting the Aggregate, with the 
+         * specified alias name if one exists.
+         * @return SQL string component.
+         */
         @Override
         public String getSQL()
         {
