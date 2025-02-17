@@ -29,7 +29,7 @@ import java.util.List;
  * Provides the central container to manage
  * relationships among the Dimensions around the fact table,
  * the Metrics inside the fact table, and the Measures that represent 
- * aggregated in queries Metrics.
+ * Metrics aggregated in queries.
  * @author jbanes
  */
 public class Star
