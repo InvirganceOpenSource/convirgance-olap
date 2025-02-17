@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Provides the central container to manage
+ * relationships among the Dimensions around the fact table,
+ * the Metrics inside the fact table, and the Measures that represent 
+ * aggregated in queries Metrics.
  * @author jbanes
  */
 public class Star
@@ -36,25 +39,46 @@ public class Star
     private List<Metric> metrics = new ArrayList<>();
     private List<Measure> measures = new ArrayList<>();
 
+    /**
+     * Creates a new Star object.
+     */
     public Star()
     {
     }
 
+    /**
+     * Creates a new Star object with the specified table as the fact table.
+     * @param fact The fact table.
+     */
     public Star(Table fact)
     {
         this.fact = fact;
     }
 
+    /**
+     * Returns the fact table of the Star.
+     * @return the fact table.
+     */
     public Table getFact()
     {
         return fact;
     }
 
+    /**
+     * Sets the provided Table as the fact table for this Star object.
+     * @param fact the table to be set as the fact table.
+     */
     public void setFact(Table fact)
     {
         this.fact = fact;
     }
     
+    /**
+     * Returns the requested Dimension from the Star or null if 
+     * no such Dimension found.
+     * @param name the String with the Dimension's name.
+     * @return The requested Dimension object or null.
+     */
     public Dimension getDimension(String name)
     {
         for(Dimension dimension : this.dimensions)
@@ -65,11 +89,20 @@ public class Star
         return null;
     }
 
+    /**
+     * Returns all Dimensions contained in the Star.
+     * @return A list of Dimensions.
+     */
     public List<Dimension> getDimensions()
     {
         return dimensions;
     }
     
+    /**
+     * Adds the passed in Dimension object to the list of Dimensions 
+     * in the Star. Sets this Star to be associated with the Dimension added.
+     * @param dimension The Dimension to add.
+     */
     public void addDimension(Dimension dimension)
     {
         if(!this.dimensions.contains(dimension))
@@ -78,7 +111,13 @@ public class Star
             dimension.setStar(this);
         }
     }
-
+    
+    /**
+     * Assigns the passed in List of Dimensions to this Star object. Also
+     * associates this Star object with every Dimension in the list by 
+     * adding the reference to the Star within each Dimension.
+     * @param dimensions The list of Dimensions.
+     */
     public void setDimensions(List<Dimension> dimensions)
     {
         this.dimensions = dimensions;
@@ -86,11 +125,21 @@ public class Star
         for(Dimension dimension : dimensions) dimension.setStar(this);
     }
 
+    /**
+     * Returns all Metrics contained in the Star. 
+    * @return the list of Metrics.
+     */
     public List<Metric> getMetrics()
     {
         return metrics;
     }
 
+    /**
+     *  Assigns the passed in List of Metrics to this Star object. Also
+     * associates this Star object with every Metric in the list by adding the 
+     * reference to the Star within each Metric.
+    * @param metrics The list of Metrics.
+     */
     public void setMetrics(List<Metric> metrics)
     {
         this.metrics = metrics;
@@ -98,6 +147,12 @@ public class Star
         for(Metric metric : metrics) metric.setStar(this);
     }
 
+    /**
+     * Returns the requested Measure from the Star or null if 
+     * no such Measure found.
+     * @param name the String representing the Measure to be returned.
+     * @return the requested Measure object.
+     */
     public Measure getMeasure(String name)
     {
         for(Measure measure : this.measures)
@@ -108,11 +163,20 @@ public class Star
         return null;
     }
     
+    /**
+     * Returns all Measures contained in the Star.
+     * @return the list of Measures.
+     */
     public List<Measure> getMeasures()
     {
         return measures;
     }
     
+    /**
+     * Adds the passed in Measure object to the list of Measures
+     * contained in the Star. Also associates this Star to the Measure.
+     * @param measure The Measure object to be added
+     */
     public void addMeasure(Measure measure)
     {
         if(!this.measures.contains(measure)) 
@@ -122,6 +186,12 @@ public class Star
         }
     }
 
+    /**
+     * Assigns the passed in List of Measures to this Star object.
+     * Associated every Measure with this Star by including the reference 
+     * to Star for each Measure in the list.
+     * @param measures The list of Measures to be assigned.
+     */
     public void setMeasures(List<Measure> measures)
     {
         this.measures = measures;
