@@ -25,17 +25,26 @@ import com.invirgance.convirgance.olap.Measure;
 import com.invirgance.convirgance.olap.Metric;
 
 /**
- *
+ * Support for constructing sum measures from metrics.
  * @author jbanes
  */
 public class SumMeasure extends Measure
 {
 
+    /**
+     * Default constructor that specifies the summing function
+     * but leaves the name and the metric fields unassigned.
+     */
     public SumMeasure()
     {
         this.setFunction("sum");
     }
     
+    /**
+     * Constructs a SumMeasure with a specified name and metric.
+     * @param name the name assigned to the SumMeasure as a String.
+     * @param metric the metric being summed.
+     */
     public SumMeasure(String name, Metric metric)
     {
         super(name, metric, "sum");

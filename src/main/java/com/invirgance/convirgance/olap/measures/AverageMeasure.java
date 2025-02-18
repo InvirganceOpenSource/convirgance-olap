@@ -25,16 +25,25 @@ import com.invirgance.convirgance.olap.Measure;
 import com.invirgance.convirgance.olap.Metric;
 
 /**
- *
+ * Support for constructing average measures from metrics.
  * @author jbanes
  */
 public class AverageMeasure extends Measure
 {
+    /**
+     * Default constructor that specifies the averaging function but leaves
+     * the name and the metric fields unassigned.
+     */
     public AverageMeasure()
     {
         setFunction("avg");
     }
     
+    /**
+     * Constructs an AverageMeasure with a specified name and metric.
+     * @param name the name assigned to the AverageMeasure as a String
+     * @param metric the metric being averaged.
+     */
     public AverageMeasure(String name, Metric metric)
     {
         super(name, metric, "avg");

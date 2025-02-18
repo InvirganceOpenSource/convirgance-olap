@@ -23,7 +23,6 @@
  */
 
 /**
- * Provides a layer of tooling to manage Dimensions, Metrics, and Measures 
- * to generate SQL queries for OLAP uses.
+ * Provides support for detailed measure classes that extend the Measure class.
  */
-package com.invirgance.convirgance.olap;
+package com.invirgance.convirgance.olap.measures;

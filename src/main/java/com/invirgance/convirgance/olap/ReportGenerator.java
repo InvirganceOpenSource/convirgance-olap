@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Provides support for the SQL query generation from constructed star schemas.
  * @author jbanes
  */
 public class ReportGenerator
@@ -37,21 +37,38 @@ public class ReportGenerator
     
     private boolean caseSensitive;
 
+    /**
+     * Constructs a ReportGenerator with a specified star schema.
+     * @param star The Star object representing the star schema.
+     */
     public ReportGenerator(Star star)
     {
         this.star = star;
     }
 
+    /**
+     * Returns true if the ReportGenerator is case sensitive
+     * @return boolean.
+     */
     public boolean isCaseSensitive()
     {
         return caseSensitive;
     }
 
+    /**
+     * Sets the case sensitivity for the ReportGenerator.
+     * @param caseSensitive boolean value.
+     */
     public void setCaseSensitive(boolean caseSensitive)
     {
         this.caseSensitive = caseSensitive;
     }
     
+    /**
+     * Adds a new dimension to the ReportGenerator object. The dimension provided must
+     * be in the associated star schema to be added to the report generator.
+     * @param dimension the dimension to be added to the report generator.
+     */
     public void addDimension(Dimension dimension)
     {
         if(dimension.getStar() != star) throw new IllegalArgumentException("Dimensions must be part of Star");
@@ -59,6 +76,11 @@ public class ReportGenerator
         if(!dimensions.contains(dimension)) this.dimensions.add(dimension);
     }
     
+    /**
+     * Adds a measure to this report generator. The measure provided must already 
+     * be in the associated star schema.
+     * @param measure the Measure to be added to the report generator.
+     */
     public void addMeasure(Measure measure)
     {
         if(measure.getStar() != star) throw new IllegalArgumentException("Measures must be part of Star");
@@ -66,6 +88,11 @@ public class ReportGenerator
         if(!this.measures.contains(measure)) this.measures.add(measure);
     }
     
+    /**
+     * Generates the SQL query as a String using the dimensions and measures
+     * from this report generator.
+     * @return the SQL query as a string.
+     */
     public String getSQL()
     {
         SQLGenerator generator = new SQLGenerator();

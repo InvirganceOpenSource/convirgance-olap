@@ -22,7 +22,7 @@ SOFTWARE.
 package com.invirgance.convirgance.olap;
 
 /**
- *
+ * Provides support for aggregated quantitative values of data.
  * @author jbanes
  */
 public class Measure
@@ -31,10 +31,21 @@ public class Measure
     private Metric metric;
     private String function;
 
+    /**
+     * Default constructor initializes an empty Measure with no assigned
+     * attributes.
+     */
     public Measure()
     {
     }
 
+    /** 
+     * Constructs a Measure with a specified name, associated Metric, and the 
+     * function that generates the measure.
+     * @param name the name of the measure as a String.
+     * @param metric the associated Metric object.
+     * @param function the name of the aggregating SQL function as a String.
+     */
     public Measure(String name, Metric metric, String function)
     {
         this.name = name;
@@ -42,36 +53,64 @@ public class Measure
         this.function = function;
     }
 
+    /**
+     * Returns the star schema associated with the Measure.
+     * @return Star object associated with the Measure.
+     */
     public Star getStar()
     {
         return metric.getStar();
     }
 
+    /**
+     * Returns the name of the Measure as a String.
+     * @return name of the Measure as a String.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Assigned a name to this Measure.
+     * @param name the name to be assigned.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
     
+    /**
+     * Returns the Metric associated with this Measure.
+     * @return The Metric behind the Measure.
+     */
     public Metric getMetric()
     {
         return metric;
     }
 
+    /**
+     * Sets the Metric associated with this Measure.
+     * @param metric the Metric associated with the Measure.
+     */
     public void setMetric(Metric metric)
     {
         this.metric = metric;
     }
 
+    /**
+     * Returns the function associated with the Measure.
+     * @return the function associated with the Measure as a String.
+     */
     public String getFunction()
     {
         return function;
     }
 
+    /**
+     * Assigns a function to the Measure object.
+     * @param function the function associated with the measure as a String.
+     */
     public void setFunction(String function)
     {
         this.function = function;

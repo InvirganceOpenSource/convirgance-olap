@@ -24,7 +24,7 @@ package com.invirgance.convirgance.olap;
 import com.invirgance.convirgance.olap.sql.Table;
 
 /**
- *  
+ * Provides support for qualitative descriptions of data.
  * @author jbanes
  */
 public class Dimension
@@ -34,10 +34,20 @@ public class Dimension
     private Table table;
     private String column;
 
+    /**
+     * Initializes an empty Dimension with no assigned attributes.
+     */
     public Dimension()
     {
     }
-
+    
+    /**
+     * Constructs a Dimension with a specified name,
+     * associated database table, and column.
+     * @param name The name of the Dimension (e.g. "Region", "Item Category").
+     * @param table The database table containing the dimension data.
+     * @param column The column in the database table that represents the dimension.
+     */
     public Dimension(String name, Table table, String column)
     {
         this.name = name;
@@ -45,41 +55,73 @@ public class Dimension
         this.column = column;
     }
 
+    /**
+     * Returns the star schema associated with this dimension.
+     * @return the Star schema assigned to the dimension.
+     */
     public Star getStar()
     {
         return star;
     }
 
+    /**
+     * Assigns the star schema reference to this dimension. 
+    * @param star The {@code Star} schema object.
+     */
     void setStar(Star star)
     {
         this.star = star;
     }
 
+    /**
+     * Returns the name of the dimension.
+     * @return the name of the Dimension as a String.
+     */
     public String getName()
     {
         return name;
     }
-
+    
+    /**
+     * Sets the name of this Dimension.
+     * @param name the new name as a String.
+     */
     public void setName(String name)
     {
         this.name = name;
     }
-
+    
+    /**
+     * Returns the database table associated with this dimension.
+     * @return the Table object associated with this dimension.
+     */
     public Table getTable()
     {
         return table;
     }
 
+    /** 
+     * Assigns a new table to this dimension.
+     * @param table the Table object containing the dimension data.
+     */
     public void setTable(Table table)
     {
         this.table = table;
     }
 
+    /**
+     * Returns the column representing this dimension.
+     * @return the Column object representing the dimension.
+     */
     public String getColumn()
     {
         return column;
     }
 
+    /**
+     * Sets the column associated with this dimension.
+     * @param column the Column object associated with the dimension.
+     */
     public void setColumn(String column)
     {
         this.column = column;

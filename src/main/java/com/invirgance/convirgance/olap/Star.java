@@ -26,10 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides the central container to manage
- * relationships among the Dimensions around the fact table,
- * the Metrics inside the fact table, and the Measures that represent 
- * Metrics aggregated in queries.
+ * Provides support for the central Star Schema container to manage
+ * relationships among Dimensions, Metrics, and aggregated Measures.
  * @author jbanes
  */
 public class Star
@@ -40,7 +38,7 @@ public class Star
     private List<Measure> measures = new ArrayList<>();
 
     /**
-     * Creates a new Star object.
+     * Initializes am empty Star object with no assigned attributes.
      */
     public Star()
     {
