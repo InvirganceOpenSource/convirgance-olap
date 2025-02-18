@@ -79,7 +79,7 @@ public class ForeignKey
 
     /**
      * Sets the provided target table to be associated with this foreignKey.
-     * @param target 
+     * @param target the target table associated with the foreign key.
      */
     public void setTarget(Table target)
     {

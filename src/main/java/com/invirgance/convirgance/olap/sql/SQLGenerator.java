@@ -48,7 +48,7 @@ public class SQLGenerator
 
     /**
      * Sets the case sensitivity for the SQLGenerator as true or false.
-     * @param caseSensitive the boolean.
+     * @param caseSensitive boolean value.
      */
     public void setCaseSensitive(boolean caseSensitive)
     {
