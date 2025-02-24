@@ -22,8 +22,7 @@ SOFTWARE.
 package com.invirgance.convirgance.olap.sql;
 
 /**
- * Captures the relationship between a source table, a column on the source 
- * table, and a target table.
+ * Captures the connection between a source table and a target table.
  * @author jbanes
  */
 public class ForeignKey

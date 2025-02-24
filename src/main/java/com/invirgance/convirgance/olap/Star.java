@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides support for the central star schema container to manage
+ * Provides support for the central star schema to manage
  * relationships among Dimensions, Metrics, and aggregated Measures.
  * @author jbanes
  */
