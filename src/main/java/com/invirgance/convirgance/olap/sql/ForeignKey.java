@@ -21,10 +21,13 @@ SOFTWARE.
  */
 package com.invirgance.convirgance.olap.sql;
 
+import com.invirgance.convirgance.wiring.annotation.Wiring;
+
 /**
  * Captures the connection between a source table and a target table.
  * @author jbanes
  */
+@Wiring
 public class ForeignKey
 {
     private Table source;

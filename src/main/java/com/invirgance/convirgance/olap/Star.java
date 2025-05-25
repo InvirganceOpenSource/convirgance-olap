@@ -22,6 +22,7 @@ SOFTWARE.
 package com.invirgance.convirgance.olap;
 
 import com.invirgance.convirgance.olap.sql.Table;
+import com.invirgance.convirgance.wiring.annotation.Wiring;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import java.util.List;
  * relationships among Dimensions, Metrics, and aggregated Measures.
  * @author jbanes
  */
+@Wiring
 public class Star
 {
     private Table fact;

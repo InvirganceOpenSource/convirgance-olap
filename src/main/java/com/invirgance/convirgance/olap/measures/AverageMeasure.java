@@ -23,11 +23,13 @@ package com.invirgance.convirgance.olap.measures;
 
 import com.invirgance.convirgance.olap.Measure;
 import com.invirgance.convirgance.olap.Metric;
+import com.invirgance.convirgance.wiring.annotation.Wiring;
 
 /**
  * Support for constructing average measures from metrics.
  * @author jbanes
  */
+@Wiring
 public class AverageMeasure extends Measure
 {
     /**

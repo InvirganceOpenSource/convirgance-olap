@@ -21,6 +21,7 @@ SOFTWARE.
  */
 package com.invirgance.convirgance.olap.sql;
 
+import com.invirgance.convirgance.wiring.annotation.Wiring;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
  * Provides support for a database Table representation.
  * @author jbanes
  */
+@Wiring
 public class Table
 {
     private Database database;

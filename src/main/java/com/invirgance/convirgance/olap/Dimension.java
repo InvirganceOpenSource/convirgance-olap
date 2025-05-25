@@ -22,11 +22,13 @@ SOFTWARE.
 package com.invirgance.convirgance.olap;
 
 import com.invirgance.convirgance.olap.sql.Table;
+import com.invirgance.convirgance.wiring.annotation.Wiring;
 
 /**
  * Provides support for qualitative descriptions of data.
  * @author jbanes
  */
+@Wiring
 public class Dimension
 {
     private Star star;
