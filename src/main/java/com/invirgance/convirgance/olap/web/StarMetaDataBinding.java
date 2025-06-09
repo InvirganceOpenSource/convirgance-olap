@@ -21,15 +21,19 @@ SOFTWARE.
  */
 package com.invirgance.convirgance.olap.web;
 
+import com.invirgance.convirgance.ConvirganceException;
 import com.invirgance.convirgance.json.JSONArray;
 import com.invirgance.convirgance.json.JSONObject;
 import com.invirgance.convirgance.olap.Dimension;
 import com.invirgance.convirgance.olap.Measure;
 import com.invirgance.convirgance.olap.Star;
-import com.invirgance.convirgance.source.ClasspathSource;
+import com.invirgance.convirgance.source.FileSource;
 import com.invirgance.convirgance.web.binding.Binding;
+import com.invirgance.convirgance.web.http.HttpRequest;
+import com.invirgance.convirgance.web.service.ServiceState;
 import com.invirgance.convirgance.wiring.XMLWiringParser;
 import com.invirgance.convirgance.wiring.annotation.Wiring;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -40,7 +44,10 @@ import java.util.List;
 public class StarMetaDataBinding implements Binding
 {
     private String schema;
+    private File file;
     private Star star;
+    private long loaded;
+
 
     public String getSchema()
     {
@@ -54,11 +61,24 @@ public class StarMetaDataBinding implements Binding
     
     private void loadStar()
     {
-        List list = new XMLWiringParser<List>(new ClasspathSource(schema)).getRoot();
+        List list;
+
+        // Already loaded
+        if(star != null && this.file.lastModified() <= this.loaded) return;
         
-        for(Object object : list)
+        synchronized(this)
         {
-            if(object instanceof Star) this.star = (Star)object;
+            file = ((HttpRequest)ServiceState.get("request")).getFileByPath("WEB-INF/models/" + schema);
+
+            if(file == null) throw new ConvirganceException("Schema " + schema + " not found under WEB-INF/models/");
+
+            list = new XMLWiringParser<List>(new FileSource(file)).getRoot();
+            loaded = file.lastModified();
+
+            for(Object object : list)
+            {
+                if(object instanceof Star) this.star = (Star)object;
+            }
         }
     }
     
@@ -68,7 +88,7 @@ public class StarMetaDataBinding implements Binding
         JSONArray<JSONObject> results = new JSONArray<>();
         JSONObject record;
         
-        if(this.star == null) loadStar();
+        loadStar();
         
         for(Dimension dimension : star.getDimensions())
         {

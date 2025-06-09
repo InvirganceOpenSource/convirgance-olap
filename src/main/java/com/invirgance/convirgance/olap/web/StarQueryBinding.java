@@ -30,10 +30,13 @@ import com.invirgance.convirgance.olap.Dimension;
 import com.invirgance.convirgance.olap.Measure;
 import com.invirgance.convirgance.olap.ReportGenerator;
 import com.invirgance.convirgance.olap.Star;
-import com.invirgance.convirgance.source.ClasspathSource;
+import com.invirgance.convirgance.source.FileSource;
 import com.invirgance.convirgance.web.binding.Binding;
+import com.invirgance.convirgance.web.http.HttpRequest;
+import com.invirgance.convirgance.web.service.ServiceState;
 import com.invirgance.convirgance.wiring.XMLWiringParser;
 import com.invirgance.convirgance.wiring.annotation.Wiring;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -48,7 +51,9 @@ public class StarQueryBinding implements Binding
     private boolean caseSensitive;
     private boolean logQuery;
     
+    private File file;
     private Star star;
+    private long loaded;
 
     /**
      * Get the JNDI path to the configured database connection. e.g. jdbc/mydatabase
@@ -126,11 +131,24 @@ public class StarQueryBinding implements Binding
     
     private void loadStar()
     {
-        List list = new XMLWiringParser<List>(new ClasspathSource(schema)).getRoot();
+        List list;
+
+        // Already loaded
+        if(star != null && this.file.lastModified() <= this.loaded) return;
         
-        for(Object object : list)
+        synchronized(this)
         {
-            if(object instanceof Star) this.star = (Star)object;
+            file = ((HttpRequest)ServiceState.get("request")).getFileByPath("WEB-INF/models/" + schema);
+
+            if(file == null) throw new ConvirganceException("Schema " + schema + " not found under WEB-INF/models/");
+
+            list = new XMLWiringParser<List>(new FileSource(file)).getRoot();
+            loaded = file.lastModified();
+
+            for(Object object : list)
+            {
+                if(object instanceof Star) this.star = (Star)object;
+            }
         }
     }
     
@@ -145,8 +163,9 @@ public class StarQueryBinding implements Binding
         
         JSONArray<String> dimensions = (JSONArray<String>)parameters.getJSONArray("dimensions");
         JSONArray<String> measures = (JSONArray<String>)parameters.getJSONArray("measures");
+
+        loadStar();
         
-        if(star == null) loadStar();
         if(parameters.getJSONArray("dimensions").isEmpty() && parameters.getJSONArray("measures").isEmpty()) return new JSONArray<>();
         
         generator = new ReportGenerator(star);
@@ -171,7 +190,7 @@ public class StarQueryBinding implements Binding
         }
         
         generator.setCaseSensitive(caseSensitive);
-        
+
         if(logQuery) System.out.println(generator.getSQL());
         
         return dbms.query(new Query(generator.getSQL()));
