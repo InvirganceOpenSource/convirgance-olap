@@ -33,7 +33,7 @@ import com.invirgance.convirgance.olap.Star;
 import com.invirgance.convirgance.source.FileSource;
 import com.invirgance.convirgance.web.binding.Binding;
 import com.invirgance.convirgance.web.http.HttpRequest;
-import com.invirgance.convirgance.web.service.ServiceState;
+import com.invirgance.convirgance.web.servlet.ServiceState;
 import com.invirgance.convirgance.wiring.XMLWiringParser;
 import com.invirgance.convirgance.wiring.annotation.Wiring;
 import java.io.File;
